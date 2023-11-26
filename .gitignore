@@ -1,2 +1,4 @@
-dcrm
+.venv
 
+dcrm/dcrm
+prod_settings.py

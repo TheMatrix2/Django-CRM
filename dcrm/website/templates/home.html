@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body>
+    <div style="text-align: center">
+
+    {% if user.is_authenticated %}
+
+    <h1>Добро пожаловать в систему!</h1>
+        <br/>
+
+    <a href="{% url 'add-client' %}" class="btn1">Добавить клиента</a>
+
+    {% else %}
+
+    <a href="{% url 'login' %}" class="btn1">Вход</a>
+    <a href="{% url 'register' %}" class="btn1">Регистрация</a>
+
+    {% endif %}
+
+</div>
+</body>
+
+{% endblock %}
