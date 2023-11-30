@@ -29,7 +29,7 @@ ROOT_URLCONF = 'dcrm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['static/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +80,5 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-try:
-    from .local_settings import *
-except ImportError:
-    from .prod_settings import *
+
+from .prod_settings import *
