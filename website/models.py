@@ -15,3 +15,11 @@ class Client(models.Model):
 
     def __str__(self):
         return (f"{self.first_name} {self.middle_name} {self.last_name}")
+
+
+class User(models.Model):
+    is_superuser = models.SmallIntegerField()
+    username = models.CharField(max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    date_joined = models.DateTimeField()
