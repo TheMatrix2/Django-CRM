@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddClientForm
 from .models import Client
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -10,8 +11,6 @@ def home(request):
 
 
 def account(request):
-    clients = Client.objects.all()
-    # Check to see if logging in
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -22,10 +21,19 @@ def account(request):
             messages.success(request, "Вы вошли в систему!")
             return redirect('account')
         else:
-            messages.success(request, "Возникла ошибка при входе. Попробуйте еще раз.")
+            messages.warning(request, "Возникла ошибка при входе. Попробуйте еще раз.")
             return redirect('account')
     else:
-        return render(request, 'account.html', {'clients': clients})
+        return render(request, 'account.html', {})
+
+def view_clients(request):
+    # Check to see if logging in
+    if request.user.is_authenticated:
+        clients = Client.objects.all()
+        return render(request, 'clients.html', {'clients': clients})
+    else:
+        messages.success(request, "Возникла ошибка при входе. Попробуйте еще раз.")
+        return redirect('login')
 
 
 def login_user(request):
@@ -38,11 +46,9 @@ def login_user(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Вы вошли в систему!")
-            # return render(request, 'account.html', {})
-            records = Client.objects.all()
-            return redirect('home')
+            return redirect('account')
         else:
-            messages.error(request, "Упс... что-то пошло не так. Попробуйте войти еще раз.")
+            messages.error(request, "Возникла ошибка при входе. Попробуйте еще раз.")
             return redirect('login')
     else:
         return render(request, 'login.html', {})
@@ -80,11 +86,11 @@ def add_client(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Запись создана.")
-                return redirect('account')
+                return redirect('clients')
         return render(request, 'add-client.html', {'form': form})
     else:
-        messages.success(request, "Для создания записей авторизуйтесь в системе.")
-        return redirect('account')
+        messages.warning(request, "Для создания записей авторизуйтесь в системе.")
+        return redirect('login')
 
 
 def view_client(request, id):
@@ -93,7 +99,7 @@ def view_client(request, id):
         return render(request, 'client.html', {'client': client})
     else:
         messages.warning(request, "Для просмотра информации авторизируйтесь в системе.")
-        return redirect('account')
+        return redirect('login')
 
 
 def edit_client(request, id):
@@ -104,11 +110,11 @@ def edit_client(request, id):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Информация успешно обновлена.")
-                return redirect('account')
+                return redirect('clients')
         return render(request, 'edit-client.html', {'form': form, 'to_edit': to_edit})
     else:
         messages.warning(request, "Для изменения информации авторизуйтесь в системе.")
-        return redirect('account')
+        return redirect('login')
 
 
 def delete_client(request, id):
@@ -119,4 +125,4 @@ def delete_client(request, id):
         return redirect('account')
     else:
         messages.warning(request, "Для удаления записей авторизуйтесь в системе.")
-        return redirect('account')
+        return redirect('login')

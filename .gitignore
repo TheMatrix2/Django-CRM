@@ -2,4 +2,6 @@
 
 dcrm/prod_settings.py
 
+logs/
+
 **/__pycache__/
