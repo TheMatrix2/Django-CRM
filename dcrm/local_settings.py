@@ -16,6 +16,14 @@ DATABASES = {
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306',
+    },
+    'clients': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'personal',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
