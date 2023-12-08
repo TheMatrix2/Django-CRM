@@ -1,7 +1,8 @@
 .venv/
 
-dcrm/prod_settings.py
+
+**/__pycache__/
 
 logs/
 
-**/__pycache__/
+/dcrm/prod_settings.py
