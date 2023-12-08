@@ -10,21 +10,14 @@ def home(request):
     return render(request, 'home.html', {})
 
 
-def account(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        # Authenticate
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, "Вы вошли в систему!")
-            return redirect('account')
-        else:
-            messages.warning(request, "Возникла ошибка при входе. Попробуйте еще раз.")
-            return redirect('account')
+def profile(request):
+    if request.user.is_authenticated:
+        user = request.user
+        return render(request, 'profile.html', {'user': user})
     else:
-        return render(request, 'account.html', {})
+        messages.success(request, 'Авторизуйтесь')
+        return redirect('login')
+
 
 def view_clients(request):
     # Check to see if logging in
@@ -46,7 +39,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Вы вошли в систему!")
-            return redirect('account')
+            return redirect('home')
         else:
             messages.error(request, "Возникла ошибка при входе. Попробуйте еще раз.")
             return redirect('login')
@@ -118,11 +111,14 @@ def edit_client(request, id):
 
 
 def delete_client(request, id):
+    to_delete = Client.objects.get(id=id)
     if request.user.is_authenticated:
-        to_delete = Client.objects.get(id=id)
-        to_delete.delete()
-        messages.success(request, "Информация о клиенте успешно удалена.")
-        return redirect('account')
+        if request.method == "POST":
+            to_delete.delete()
+            messages.success(request, "Информация о клиенте успешно удалена.")
+            return redirect('profile')
+        else:
+            return render(request, 'client.html', {'client': to_delete})
     else:
         messages.warning(request, "Для удаления записей авторизуйтесь в системе.")
         return redirect('login')
