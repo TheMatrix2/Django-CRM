@@ -3,8 +3,7 @@
 
 <div class="card">
     <div class="card-header"><strong>
-        {{client.first_name}}
-        {{client.middle_name}}
+        {{client.first_name}} {{client.middle_name}} {{client.last_name}} #{{client.id}}
     </strong>
     </div>
     <div class="card-body">
@@ -28,7 +27,7 @@
 
 <br/><br/>
 
-<a href="{% url 'account' %}" class="btn1">Назад</a>
+<a href="{% url 'home' %}" class="btn1">Назад</a>
 <!-- Button to trigger the modal -->
 <a class="btn1-danger" data-toggle="modal" data-target="#deleteModal">
     Удалить
@@ -46,7 +45,9 @@
             </div>
             <div class="modal-footer">
                 <a class="btn1" data-dismiss="modal">Отмена</a>
-                <a href="{% url 'delete-client' client.id %}" class="btn1-danger">Удалить</a>
+                <form method="POST">
+                    <button type="submit" href="{% url 'delete-client' client.id %}" class="btn1-danger">Удалить</button>
+                </form>
             </div>
         </div>
     </div>
