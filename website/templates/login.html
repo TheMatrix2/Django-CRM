@@ -2,26 +2,22 @@
 {% block content %}
 
 <div class="col-md-6 offset-md-3">
-    <div style="text-align: center">
         <h1>Вход</h1>
         <br/>
-    </div>
-
-    <form method="POST" action="{% url 'login' %}">
-        {% csrf_token %}
-          <div class="mb-3">
-            <input type="text" class="form-control" name="username", placeholder="Имя пользователя" required>
-          </div>
-          <div class="mb-3">
-            <input type="password" class="form-control" name="password", placeholder="Пароль" required>
-          </div>
-            <br/>
-          <div style="text-align: center">
-              <button type="submit" class="btn1">Подтвердить</button>
-          </div>
-
-    </form>
-
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+              <div class="mb-3">
+                <input type="text" class="form-control" name="username", placeholder="Имя пользователя" required>
+              </div>
+              <div class="mb-3">
+                <input type="password" class="form-control" name="password", placeholder="Пароль" required>
+              </div>
+                <br/>
+                  <button type="submit" class="btn1">Подтвердить</button>
+        </form>
+        <br/>
+        <br/>
+        <h3>Нет учетной записи? <a href="{% url 'register' %}" >Создать аккаунт</a> </h3>
 </div>
 
 {% endblock %}

@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<body>
-    <div style="text-align: center">
+<div style="text-align: center">
 
     {% if user.is_authenticated %}
 
-    <h1>Добро пожаловать в систему!</h1>
-        <br/>
-
-    <a href="{% url 'add-client' %}" class="btn1">Добавить клиента</a>
-
-    {% else %}
-
-    <a href="{% url 'login' %}" class="btn1">Вход</a>
-    <a href="{% url 'register' %}" class="btn1">Регистрация</a>
+    <h2>Курсовой проект по дисциплине технологии и методы программирования</h2>
+    <h2>Кафедра ИУ8</h2>
+    <h2>МГТУ им. Н. Э. Баумана</h2>
+    <br/>
+    <h4>Client relationship management (CRM) система предоставляет возможность создания записей с данными клиентов
+        образовательной организации, наглядного распределения их по курсам организации и просмотра статистики.
+    </h4>
 
     {% endif %}
-
 </div>
-</body>
 
 {% endblock %}
