@@ -7,9 +7,9 @@ from .models import Client
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={
         'class': 'form-control', 'placeholder': 'Электронная почта'}))
-    first_name = forms.CharField(label="", required=True, max_length=100, widget=forms.TextInput(attrs={
-        'class': 'form-control', 'placeholder': 'Фамилия'}))
     middle_name = forms.CharField(label="", required=True, max_length=100, widget=forms.TextInput(attrs={
+        'class': 'form-control', 'placeholder': 'Фамилия'}))
+    first_name = forms.CharField(label="", required=True, max_length=100, widget=forms.TextInput(attrs={
         'class': 'form-control', 'placeholder': 'Имя'}))
     last_name = forms.CharField(label="", required=False, max_length=100, widget=forms.TextInput(attrs={
         'class': 'form-control', 'placeholder': 'Отчество'}))
