@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-0 mb-lg-0">
-                <li class="ml-auto"><a class="nav-link" href="#">Курсы</a></li>
+                <li class="ml-auto"><a class="nav-link" href="{% url 'courses' %}">Курсы</a></li>
                 <li class="ml-auto"><a class="nav-link" href="{% url 'clients' %}">Клиенты</a></li>
             </ul>
 

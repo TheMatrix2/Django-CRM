@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header"><strong>
-        {{client.first_name}} {{client.middle_name}} {{client.last_name}} #{{client.id}}
+        {{client.middle_name}} {{client.first_name}} {{client.last_name}} #{{client.id}}
     </strong>
     </div>
     <div class="card-body">
@@ -14,20 +14,25 @@
             <strong>E-mail: </strong>{{client.email}}
         </p>
         <p class="card-text">
-            <strong>Адрес: </strong>{{client.address}}
-        </p>
-        <p class="card-text">
             <strong>Город: </strong>{{client.city}}
         </p>
         <p class="card-text">
             <strong>Область: </strong>{{client.state}}
+        </p>
+        <p class="card-text">
+            <strong>Статус обучения: </strong>
+            {% if client.course_id_1 == 0 and client.course_id_2 == 0 and client.course_id_3 == 0 %}
+                Не обучается
+            {% else %}
+                Обучается на {% for course in courses %} {% if course != '' %} "{{course}}" {% endif %} {% endfor %}
+            {% endif %}
         </p>
     </div>
 </div>
 
 <br/><br/>
 
-<a href="{% url 'home' %}" class="btn1">Назад</a>
+<a href="{{ previous_url }}" class="btn1">Назад</a>
 <!-- Button to trigger the modal -->
 <a class="btn1-danger" data-toggle="modal" data-target="#deleteModal">
     Удалить
@@ -45,8 +50,9 @@
             </div>
             <div class="modal-footer">
                 <a class="btn1" data-dismiss="modal">Отмена</a>
-                <form method="POST">
-                    <button type="submit" href="{% url 'delete-client' client.id %}" class="btn1-danger">Удалить</button>
+                <form method="POST" action="{% url 'delete-client' client.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn1-danger">Удалить</button>
                 </form>
             </div>
         </div>

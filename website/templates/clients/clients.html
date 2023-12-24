@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h1>Клиенты</h1>
+<table class="table table-hover" style="cursor: pointer">
+    <thead>
+    <tr>
+        <th scope="col">ФИО</th>
+        <th scope="col">Город</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% if clients %}
+    {% for client in clients %}
+        <tr data-id="{{ client.id }}">
+            <td>{{client.middle_name}} {{ client.first_name }} {{ client.last_name }}</td>
+            <td>{{ client.city }}</td>
+        </tr>
+    {% endfor %}
+
+    {% endif %}
+
+
+    </tbody>
+</table>
+
+<br/>
+<div style="text-align: center">
+    <a href="{% url 'add-client' %}" class="btn1">Добавить клиента</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tableRows = document.querySelectorAll('.table tbody tr');
+
+        tableRows.forEach(function (row) {
+            row.addEventListener('click', function () {
+                var clientId = this.getAttribute('data-id');
+                if (clientId) {
+                    window.location.href = '/client/' + clientId;
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

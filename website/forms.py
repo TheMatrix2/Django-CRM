@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Client
+from .models import Client, Course
 
 
 class SignUpForm(UserCreationForm):
@@ -47,8 +47,6 @@ class AddClientForm(forms.ModelForm):
         "placeholder": "e-mail", "class": "form-control"}), label="")
     phone = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={
         "placeholder": "Мобильный телефон", "class": "form-control"}), label="")
-    address = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={
-        "placeholder": "Адрес", "class": "form-control"}), label="")
     city = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={
         "placeholder": "Город", "class": "form-control"}), label="")
     state = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={
@@ -56,4 +54,19 @@ class AddClientForm(forms.ModelForm):
 
     class Meta:
         model = Client
+        fields = ["first_name", "middle_name", "last_name", "email", "phone", "city", "state"]
+        exclude = ("user",)
+
+
+class AddCourseForm(forms.ModelForm):
+    title = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={
+        "placeholder": "Название", "class": "form-control"}), label="")
+    description = forms.CharField(required=True, widget=forms.widgets.Textarea(attrs={
+        "placeholder": "Описание курса", "class": "form-control"}), label="")
+    name_of_teacher = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={
+        "placeholder": "Имя преподавателя", "class": "form-control"}), label="")
+
+    class Meta:
+        model = Course
+        fields = ("title", "description", "name_of_teacher")
         exclude = ("user",)

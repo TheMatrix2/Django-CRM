@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Курсы</h1>
+<table class="table table-hover" style="cursor: pointer">
+    <thead>
+    <tr>
+        <th scope="col">Название</th>
+        <th scope="col">Преподаватель</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% if courses %}
+    {% for course in courses %}
+        <tr data-id="{{ course.id }}">
+            <td>{{ course.title }}</td>
+            <td>{{ course.name_of_teacher }}</td>
+        </tr>
+    {% endfor %}
+
+    {% endif %}
+
+    </tbody>
+</table>
+
+<br/>
+<div style="text-align: center">
+    <a href="{% url 'add-course' %}" class="btn1">Добавить курс</a>
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tableRows = document.querySelectorAll('.table tbody tr');
+
+            tableRows.forEach(function (row) {
+                row.addEventListener('click', function () {
+                    var courseId = this.getAttribute('data-id');
+                    if (courseId) {
+                        window.location.href = '/course/' + courseId;
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
