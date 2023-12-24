@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Выберите клиентов, которых хотите добавить на курс "{{ course.title }}"</h1>
+<form id="addStudentsForm" method="post" action="{% url 'add-student' course_id %}">
+    {% csrf_token %}
+    <table class="table table-hover" style="cursor: pointer">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">ФИО</th>
+            <th scope="col">Город</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% if clients %}
+        {% for client in clients %}
+            <tr data-id="{{ client.id }}">
+                <td><input type="checkbox" name="selected_clients" class="client-checkbox"
+                           value="{{ client.id }}"></td>
+                <td>{{client.middle_name}} {{ client.first_name }} {{ client.last_name }}</td>
+                <td>{{ client.city }}</td>
+            </tr>
+        {% endfor %}
+
+        {% endif %}
+
+
+        </tbody>
+    </table>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var selectableRows = document.querySelectorAll('.table tbody tr');
+
+            selectableRows.forEach(function (row) {
+                row.addEventListener('click', function () {
+                    var checkbox = row.querySelector('.client-checkbox');
+                    checkbox.checked = !checkbox.checked;
+                });
+            });
+        });
+    </script>
+    <br/>
+    <button type="submit" class="btn1">Добавить на курс</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("addStudentsForm");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            var selectedStudents = [];
+            var checkboxes = document.getElementsByName("selected_clients");
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    selectedStudents.push(checkboxes[i].value);
+                }
+            }
+
+            // Добавляем выбранных студентов в скрытое поле формы
+            var hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "selected_student_ids";
+            hiddenInput.value = JSON.stringify(selectedStudents);
+            form.appendChild(hiddenInput);
+
+            // Отправляем форму
+            form.submit();
+        });
+    });
+  </script>
+
+{% endblock %}
