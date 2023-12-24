@@ -81,4 +81,4 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-from .prod_settings import *
+from .local_settings import *
