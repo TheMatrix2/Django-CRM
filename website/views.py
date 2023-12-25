@@ -160,8 +160,16 @@ def edit_course(request, course_id):
 @login_required(login_url='/login')
 def delete_course(request, course_id):
     to_delete = Course.objects.get(id=course_id)
+    clients_on_course = (Client.objects.filter(course_id_1=course_id) | Client.objects.filter(course_id_2=course_id) |
+                         Client.objects.filter(course_id_3=course_id))
     if request.method == "POST":
         to_delete.delete()
+        for client in clients_on_course:
+            client_courses = [client.course_id_1, client.course_id_2, client.course_id_3]
+            client_courses[client_courses.index(course_id)] = 0
+            client.course_id_1, client.course_id_2, client.course_id_3 = (client_courses[0], client_courses[1],
+                                                                          client_courses[2])
+            client.save()
         messages.success(request, f'Курс "{to_delete.title}" удален')
         return redirect('courses')
     else:

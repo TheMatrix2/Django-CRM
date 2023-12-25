@@ -28,10 +28,10 @@
 </a>
 <a href="{% url 'edit-course' course.id %}" class="btn1">Изменить</a>
 
-</br>
-</br>
+<br/>
+<br/>
 <h3>Студенты курса</h3>
-</br>
+<br/>
 
 <table class="table table-hover" style="cursor: pointer">
     <thead>
@@ -44,51 +44,9 @@
 
     {% if students %}
     {% for student in students %}
-        <tr data-toggle="modal" data-target="#actionModal">
+        <tr data-toggle="modal" data-id="{{ student.id }}" data-course-id="{{ course.id }}" data-target="#actionModal">
             <td>{{student.middle_name}} {{ student.first_name }} {{ student.last_name }}</td>
             <td>{{ student.email }}</td>
-<!--            Modal for actions-->
-            <div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="actionLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="actionLabel">Действия</h5>
-                        </div>
-                        <div class="modal-body">
-                            Посмотреть подробную информацию о студенте или убрать его с курса
-                        </div>
-                        <div class="modal-footer">
-                            <a class="btn1" data-dismiss="modal">Закрыть</a>
-                            <a class="btn1" href="{% url 'client' student.id %}">Подробнее</a>
-                            <a class="btn1-danger" data-toggle="modal" data-target="#deleteStudent">
-                                Убрать
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!--            Modal for student deletion-->
-            <div class="modal fade" id="deleteStudent" tabindex="-1" role="dialog" aria-labelledby="deleteStudentLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteStudentLabel">Подтверждение отчисления студента</h5>
-                        </div>
-                        <div class="modal-body">
-                            Уверены, что хотите убрать этого студента с курса?
-                        </div>
-                        <div class="modal-footer">
-                            <a class="btn1" data-dismiss="modal">Отмена</a>
-                            <form method="POST" action="{% url 'delete-student' course.id student.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn1-danger">Убрать</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </tr>
-
     {% endfor %}
 
     {% endif %}
@@ -100,7 +58,7 @@
 
 <a href="{% url 'add-student' course.id %}" class="btn1">Добавить новых</a>
 
-<!-- Modal -->
+<!-- Modal for course deletion -->
 <div class="modal fade" id="deleteCourse" tabindex="-1" role="dialog" aria-labelledby="deleteCourseLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -120,6 +78,64 @@
         </div>
     </div>
 </div>
+<!--            Modal for actions-->
+<div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="actionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="actionLabel">Действия</h5>
+            </div>
+            <div class="modal-body">
+                Посмотреть подробную информацию о студенте или убрать его с курса
+            </div>
+            <div class="modal-footer">
+                <a class="btn1" data-dismiss="modal">Закрыть</a>
+                <a class="btn1" id="infoButton">Подробнее</a>
+<!--                <a class="btn1-danger" id="deleteStudentModal">Убрать</a>-->
+                <form method="POST" id="deleteForm" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn1-danger">Убрать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--            Modal for student deletion-->
+<div class="modal fade" id="deleteStudent" tabindex="-1" role="dialog" aria-labelledby="deleteStudentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteStudentLabel">Подтверждение отчисления студента</h5>
+            </div>
+            <div class="modal-body">
+                Уверены, что хотите убрать этого студента с курса?
+            </div>
+            <div class="modal-footer">
+                <a class="btn1" data-dismiss="modal">Отмена</a>
+            </div>
+        </div>
+    </div>
+</div>
+</tr>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tableRows = document.querySelectorAll('.table tbody tr');
+
+        tableRows.forEach(function (row) {
+            row.addEventListener('click', function () {
+                var clientId = row.getAttribute('data-id');
+                var courseId = row.getAttribute('data-course-id');
+                var modal = document.getElementById('actionModal');
+                var infoButton = modal.querySelector('#infoButton');
+                var deleteForm = modal.querySelector('#deleteForm');
+                deleteForm.action = "{% url 'delete-student' 0 0 %}".replace('0', courseId).replace('0', clientId);
+                infoButton.addEventListener('click', function () {
+                    window.location.href = '/client/' + clientId;
+                });
+            });
+        });
+    });
+</script>
 
 {% endblock %}
