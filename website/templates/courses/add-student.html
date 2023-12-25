@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Выберите клиентов, которых хотите добавить на курс "{{ course.title }}"</h1>
+<h1>Выберите клиентов, которых хотите добавить на курс</h1>
 <form id="addStudentsForm" method="post" action="{% url 'add-student' course_id %}">
     {% csrf_token %}
     <table class="table table-hover" style="cursor: pointer">
