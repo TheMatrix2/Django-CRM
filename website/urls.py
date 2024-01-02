@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -23,3 +25,7 @@ urlpatterns = [
     path('course/<int:course_id>/add-student', views.add_student, name='add-student'),
     path('delete-student/<int:course_id>/<int:student_id>', views.delete_student, name='delete-student'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
