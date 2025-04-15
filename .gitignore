@@ -1,7 +1,11 @@
-/.venv/
+.venv/
 
 **/__pycache__/
 
 /logs/
 
 /static/
+
+migrations/
+
+db.sqlite3

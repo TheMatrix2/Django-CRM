@@ -12,6 +12,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'website'
 ]
 
@@ -26,6 +28,18 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'dcrm.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 TEMPLATES = [
     {
@@ -85,13 +99,10 @@ STATIC_ROOT = '/home/thematrix/PythonProjects/dcrm/static/'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'),
-# ]
 
 from dcrm.local_settings import *
 
 # try:
-    # from dcrm.prod_settings import *
+#     from dcrm.prod_settings import *
 # except ImportError:
-
+#     from dcrm.local_settings import *

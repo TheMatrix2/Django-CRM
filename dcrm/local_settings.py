@@ -6,16 +6,12 @@ SECRET_KEY = 'django-insecure-y74n+z*kxadxa57__8d5du&f=&gbkbufn^0az3ws&j!ow$m4(&
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '77.246.100.101']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'personal',
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     },
 }
 
